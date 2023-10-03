@@ -1,0 +1,78 @@
+
+CREATE DATABASE proyectoFinalDb;
+
+USE proyectoFinalDb;
+
+
+CREATE TABLE categorias (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(50)
+);
+
+CREATE TABLE productos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100),
+    descripcion TEXT,
+    precio DECIMAL(10, 2),
+    foto VARCHAR(200),
+    categoria_id INT,
+    stock_actual INT,
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id)
+);
+
+
+CREATE TABLE usuarios (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100),
+    email VARCHAR(100),
+    password VARCHAR(255),
+    domicilio VARCHAR(255),
+    telefono VARCHAR(20),
+    role VARCHAR(10)
+);
+
+
+CREATE TABLE ordenes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  fecha DATE NOT NULL,
+  idUsuario INT NOT NULL,
+  cantidad_productos INT,
+  precio_total DECIMAL(10,2),
+  FOREIGN KEY (idUsuario) REFERENCES usuarios(id)
+);
+
+CREATE TABLE productos_x_orden (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  idOrden INT NOT NULL,
+  nombre VARCHAR(255) NOT NULL,
+  cantidad INT NOT NULL,
+  precio DECIMAL(10, 2) NOT NULL,
+  FOREIGN KEY (idOrden) REFERENCES Ordenes(id)
+);
+
+
+CREATE TABLE productos_favoritos_x_usuario (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  idProducto INT NOT NULL,
+  idUsuario INT NOT NULL,
+  FOREIGN KEY (idProducto) REFERENCES productos(id),
+  FOREIGN KEY (idUsuario) REFERENCES usuarios(id)
+);
+
+
+CREATE TABLE ofertas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  fecha_hasta DATE NOT NULL,
+  idProducto INT NOT NULL,
+  precio_oferta DECIMAL(10,2),
+  descripcion VARCHAR(1000),
+  FOREIGN KEY (idProducto) REFERENCES productos(id)
+);
+
+
+CREATE TABLE novedades (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(100),
+    contenido TEXT,
+    fecha DATE
+);

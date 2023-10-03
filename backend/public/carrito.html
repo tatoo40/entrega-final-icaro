@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Juan Francisco Fernandez">
+        <meta name="generator" content="">
+        <title>Carrito - Anton - Cocina casera</title>
+        <link href="./css/reset.css" rel="stylesheet">       
+        <link href="./css/styles.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100" rel="stylesheet" />
+    </head>
+    <body> 
+
+        <header class="main-header">
+			<div class="container">
+				<h1 class="mh-logo">
+					<a href="index.html"><img src="./images/logoAntonBlancoSolo.png"  width="119" height="50" alt="Anton cocina casera"></a>
+				</h1>
+				<nav class="main-nav">
+					<ul class="main-nav-list">
+						<li>
+							<a href="index.html">Inicio</a>
+						</li>
+						<li>
+							<a href="productList.html">Carta</a>
+						</li>
+						<li>
+							<a href="#">Novedades</a>
+						</li>
+						<li>
+							<a href="contacto.html">Contacto</a>
+						</li>
+                        <li>
+							<a href="login.html">Login</a>
+						</li>
+                        <li>
+							<a href="carrito.html"><span class="material-symbols-outlined icono-blanco">&#xe8cc;</span></a>
+						</li>                        
+					</ul>
+				</nav>
+			</div>
+		</header>
+
+
+
+        <main>
+            <div class="row contenedorCarritoExt">
+             
+                <section   class="secundaria text-center contenedorCarritoInt">
+                    <div class="contenedor text-center">
+                        <h1>Checkout</h1>
+                        <div class="contenedorCarrito">
+
+
+                            <div class= "lineaCarrito">
+                                <div class="imagenCarrito">
+                                    <img src="./images/risottoProducto.png" >
+                                </div>   
+                                <div class="centroCarrito">
+                                    <p>Risotto de hongos</p>
+                                    <div class="cantidadesCarrito">
+                                        <button class="btn_carrito menos">-</button><input class="cantidadInput" value="1"></input><button class="btn_carrito mas">+</button>
+                                    </div>
+                                </div>   
+                                <div class="derechaCarrito">
+                                    <p>$ 280</p>
+                                    <div class="btnBorrar">
+                                        <span class="material-symbols-outlined icono-chico">&#xe872;</span>
+                                    </div>
+                                   
+                                </div>                                                                     
+                            </div>
+
+                     
+                            <div class= "lineaCarrito">
+                                <div class="imagenCarrito">
+                                    <img src="./images/risottoProducto.png" >
+                                </div>   
+                                <div class="centroCarrito">
+                                    <p>Risotto de hongos</p>
+                                    <div class="cantidadesCarrito">
+                                        <button class="btn_carrito menos">-</button><input class="cantidadInput" value="1"></input><button class="btn_carrito mas">+</button>
+                                    </div>
+                                </div>   
+                                <div class="derechaCarrito">
+                                    <p>$ 280</p>
+                                    <div class="btnBorrar">
+                                        <span class="material-symbols-outlined icono-chico">&#xe872;</span>
+                                    </div>
+                                    
+                                </div>                                                                     
+                            </div>
+
+
+
+                          
+                        </div>
+                        <button class="btn_comprar">Pagar</button>
+
+
+                    </div>
+                </section>
+               
+            </div>
+        </main>
+        <footer class="main-footer" role="contentinfo">
+            <div class="container">
+                <p>Estamos abiertos de lunes a viernes en el horario de 7:30 a 20:30 y los sabado de 9:00 a 12:00</p>
+                <img src="./images/logoAntonBlancoSolo.png" width="118px" />
+                <p>Todos los derechos reservados 2023</p>
+            </div>
+        </footer>
+
+
+
+      
+    </body>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', e => {
+            $('#input-datalist').autocomplete()
+        }, false);
+      </script>
+          <script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
+      
+            
+</html>

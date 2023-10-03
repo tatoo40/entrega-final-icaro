@@ -1,0 +1,20 @@
+[
+  {
+    "id": 2,
+    "descripcion": "Arroz con dulce de leche",
+    "categoria": "Postre",
+    "precio": 920
+  },
+  {
+    "id": 23,
+    "descripcion": "Arroz con leche",
+    "categoria": "Postre",
+    "precio": 43
+  },
+  {
+    "id": 233,
+    "descripcion": "Arroz con leche",
+    "categoria": "Postre",
+    "precio": 43
+  }
+]

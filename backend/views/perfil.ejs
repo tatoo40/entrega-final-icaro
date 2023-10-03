@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Perfil</title>
+  <link rel="stylesheet" href="/css/estilos.css"> <!-- Agrega la ruta correcta a tu archivo de estilos CSS -->
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="/api/productos">Productos</a></li>
+      <li><a href="/api/admin/perfil">Ver Mi Perfil</a></li>
+    </ul>
+  </nav>
+
+  <h1>Perfil de Usuario</h1>
+
+  <% if (email) { %>
+    <p>Nombre: <%= nombre %></p>
+    <p>Email: <%= email %></p>
+  <% } else { %>
+    <p>User not logged in</p>
+  <% } %>
+  <!-- Agrega más campos según los datos del usuario -->
+</body>
+</html>
