@@ -1,7 +1,8 @@
 const fs = require("fs");
 const archivoService = require("../services/manejoArchivoService");
+const comentario = require("../models/comentario");
 const Producto       = require('../models').producto;
-
+const Comentario       = require('../models').comentario;
 // Función para leer los datos del archivo productos.json
 async function  obtenerProductos() {
   const productos =  await obtenerProductosBD();
@@ -28,6 +29,18 @@ async function  obtenerProductoId (id) {
   return productos;
 };
 
+
+
+async function  obtengoNotasProductoId (id) {
+  const productos =  await obtenerNotasProductoByIdBD(id);
+  //console.log(productos)
+  //const usuariosParsed = JSON.parse(usuarios);
+  return productos;
+};
+
+
+
+
 async function eliminarProducto (id)  {
 
 
@@ -49,7 +62,9 @@ async function agregarProducto(producto){
 
 async function agregarProductoBD(producto) {
   try {
-    const productos = await Producto.create({ nombre: producto.nombre, precio: producto.precio,foto:producto.foto, descripcion: producto.descripcion,categoria_id: producto.categoria_id, stock_actual:producto.stock_actual });
+    const productos = await Producto.create({ nombre: producto.nombre, precio: producto.precio,foto:producto.foto, 
+      descripcion: producto.descripcion,categoria_id: producto.categoria_id, stock_actual:producto.stock_actual,
+    tiene_descuento:producto.tiene_descuento, precio_descuento:producto.precio_descuento });
     return productos;
   } catch (error) {
     throw error;
@@ -59,6 +74,19 @@ async function agregarProductoBD(producto) {
 async function obtenerProductosBD() {
   try {
     const productos = await Producto.findAll();
+    return productos;
+  } catch (error) {
+    throw error;
+  }
+}
+async function obtenerNotasProductoByIdBD(id) {
+  try {
+    const productos = await Comentario.findAll({
+      where: {
+        idProducto: id
+      }
+    });
+    //Book.findById(id
     return productos;
   } catch (error) {
     throw error;
@@ -88,7 +116,9 @@ async function actaulizarProductoByIdBD(id,body) {
       descripcion:body.descripcion,
       precio:body.precio,
       categoria_id:body.categoria_id,
-      stock_actual:body.stock_actual
+      stock_actual:body.stock_actual,
+      tiene_descuento:body.tiene_descuento, 
+      precio_descuento:body.precio_descuento
     
     }, {
         where: {
@@ -122,4 +152,5 @@ module.exports = {
   agregarProducto,
   eliminarProducto,
   actualizarProducto,
+  obtengoNotasProductoId
 };

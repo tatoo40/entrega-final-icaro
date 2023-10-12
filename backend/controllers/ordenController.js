@@ -3,7 +3,7 @@ const ordenService = require("../services/ordenService");
 
 const obtengoOrdenes= (req, res) => {
 
-  const ordenes = ordenService.obtengoOrdenes()
+  const ordenes = ordenService.obtenerOrdenes()
   .then(orden => res.status(200).send(orden))
   .catch(error => res.status(400).send(error))
 
@@ -18,6 +18,7 @@ const obtengoOrdenId = (req, res) => {
 };
 
 const agregarOrden = (req, res) => {
+  
   const { body } = req;
   const orden = ordenService.agregarOrden(body)
   .then(orden => res.status(200).send(orden))

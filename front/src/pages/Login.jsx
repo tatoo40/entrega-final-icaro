@@ -1,47 +1,61 @@
-import React, { useState } from "react";
-import { Form, Input, Button, Checkbox, Row, Col } from "antd";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../components/AuthContext"
+import { Form, Input, Button, Checkbox, Row, Col, Typography } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import useUserLogin from "../store/useUserLogin";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const LoginForm = () => {
+  const { Title } = Typography; 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const { setIsLogged, setUser } = useUserLogin();
   const navigate = useNavigate();
 
+
+  const { login } = useContext(AuthContext); // Obtiene la función de inicio de sesión del contexto
+  
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+
+
   const onFinish = async (values) => {
-    setLoading(true);
-    setError(false);
-    console.log(values)
+ 
     try {
-      const response = await fetch("http://localhost:4000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+      // Llama a la función de inicio de sesión con las credenciales ingresadas
+      const user = await login(values.email, values.password)
+ 
 
-      if (!response.ok) {
-        setLoading(false);
-        return setError(true);
-      }
-
-      const data = await response.json();
-      setUser(data);
-      setIsLogged(true);
-      navigate("/");
+        // Verifica si el inicio de sesión fue exitoso (por ejemplo, si el usuario existe)
+    if (user) {
+      // Redirige al usuario a la página de productos
+      navigate("/productos");
+    } else {
+      // Maneja el caso en el que el inicio de sesión no fue exitoso
+      // Puedes mostrar un mensaje de error al usuario si es necesario
+      setError(true)
+      console.error("Inicio de sesión fallido. Usuario no encontrado.");
+    }  
+      // Maneja la redirección o cualquier otra acción después del inicio de sesión exitoso
     } catch (error) {
-      console.log({ error });
-      setError(true);
+      // Maneja los errores, por ejemplo, mostrando un mensaje de error al usuario
+      console.error("Error de inicio de sesión:", error);
     }
-    setLoading(false);
   };
 
   return (
+    <>
+
     <Row justify="center" align="middle" style={{ height: "100vh" }}>
       <Col span={8}>
+
+      <Title level={3} style={{ textAlign: "center" }}>
+              Ingreso de usuarios
+            </Title>
+
         <Form
           name="normal_login"
           className="login-form"
@@ -94,8 +108,13 @@ const LoginForm = () => {
             </Button>
           </Form.Item>
         </Form>
+        <p>
+    ¿No tienes una cuenta?{" "}
+    <Link to="/registro">Regístrate <b>AQUI</b></Link>
+  </p>
       </Col>
     </Row>
+    </>
   );
 };
 

@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
-import useCheckLogin from "../hooks/useCheckLogin";
-import useUserLogin from "../store/useUserLogin";
+import React, { useEffect, useState ,useContext} from "react";
 import ProductGridAdmin from "../components/product/ProductGridAdmin";
-import { Input, Select, Row, Col } from "antd";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-
+import { AuthContext } from "../components/AuthContext";
+import { Input, Select, Row, Col, Typography , Button} from "antd";
+import { useNavigate } from "react-router-dom";
 
 
 const Productos = () => {
+  const { Title } = Typography; 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]); // Para almacenar las categorías
 
@@ -21,19 +19,16 @@ const Productos = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
 
+  const navigate = useNavigate();
 
+  const { isLogged, user, handleLogout } = useContext(AuthContext); 
 
-
-
-  useCheckLogin();
-  const { user } = useUserLogin();
-
-  //console.log(user)
+//console.log(user)
 
   const fetchTodos = async () => {
     const response = await fetch("http://localhost:4000/api/productos");
     const data = await response.json();
-    console.log(data);
+    //console.log(data);
     setProducts(data);
     setFilteredProducts(data);
   };
@@ -101,13 +96,22 @@ const Productos = () => {
 
   return (
     <>
-        <Navbar
-
-/>
+   
     <div style={{ textAlign: "left" ,  margin:"25px"  }}>
       {/* Filtro por nombre */}
+
+
+      <Title level={3} style={{ textAlign: "center" }}>
+              Edicion de productos
+            </Title>
+
+
+
+
+
       <Row justify="center" align="middle">
         <Col span={8}>
+
         <h3 style={{ textAlign: "left" ,  margin:"0px 0px 2px 0px"}}>Filtrar por nombre del producto</h3>
           <Input
             type="text"
@@ -177,16 +181,46 @@ const Productos = () => {
           </Select>
         </Col>
       </Row>
+
+      <Row justify="center" align="middle">
+        <Col span={8}>
+          
+        <Button
+                type="primary"
+                htmlType="submit"
+                className="registro-form-button"
+                onClick={() => navigate("/agregarproducto")}
+              >
+               AGREGAR PRODUCTO
+              </Button>
+  
+        </Col>
+      </Row>
+
+
+
+
       </div>
       <div style={{ textAlign: "center" }}>
       {/* Resultados de productos */}
+      { user.role==='admin' && 
       <Row gutter={[16, 16]}>
         <Col span={24}>
           {filteredProducts ? <ProductGridAdmin products={filteredProducts} /> : null}
         </Col>
       </Row>
+          } : {
+            <Row justify="center" align="middle" style={{ height: "100vh" }}>
+            <Col span={8}>
+              <p>Usted no puede ver los productos en esta seccion si no es administrador</p>
+              <br></br>
+     
+            </Col>
+          </Row>
+          }
     </div>
-    <Footer /></>
+
+  </>
   );
 };
 

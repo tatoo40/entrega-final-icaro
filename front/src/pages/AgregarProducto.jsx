@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { Form, Input, Button, Row, Col, Select, Upload, message } from "antd";
+import { Form, Input, Button, Row, Col, Select, Upload, message, Typography, Modal } from "antd";
 import {
   UserOutlined,
   MailOutlined,
@@ -7,13 +7,14 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+
 
 const AgregarProductoForm = () => {
   const [loading, setLoading] = useState(false);
+  const { Title } = Typography
   const [error, setError] = useState(false);
   const [categories, setCategories] = useState([]); // Estado para almacenar las categorías
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); 
   const navigate = useNavigate();
 
   // Define el estado inicial del formulario
@@ -23,7 +24,9 @@ const AgregarProductoForm = () => {
     precio: 0,
     stock_actual: 0,
     categoria_id: 0,
-    foto:'sinimagen.png'
+    foto:'sinimagen.png',
+    precio_descuento:0,
+    tiene_descuento:0
   });
 
 
@@ -41,8 +44,11 @@ const AgregarProductoForm = () => {
       formData.append("stock_actual", values.stock_actual);
       formData.append("categoria_id", values.categoria_id);
       formData.append("foto", 'sinimagen.png'); // Agrega el archivo de la foto
+      formData.append("precio_descuento", values.precio_descuento);
+      formData.append("tiene_descuento", 0); // Agrega el archivo de la foto
 
-      console.log(formData)
+
+      //console.log(formData)
     
         const response = await fetch(`http://localhost:4000/api/productos`, {
           method: "POST",
@@ -58,9 +64,12 @@ const AgregarProductoForm = () => {
       }
 
       const data = await response.json();
-      navigate("/"); // Redirige a la página de inicio de sesión después del registro exitoso
+    
+        setIsSuccessModalVisible(true); // Ocultar el modal de éxito
+        
+      
     } catch (error) {
-      console.log({ error });
+      //console.log({ error });
       setError(true);
     }
 
@@ -115,11 +124,20 @@ const AgregarProductoForm = () => {
     });
   };
 
+  const handleModalOk = () => {
+    setIsSuccessModalVisible(false); // Ocultar el modal de éxito
+    navigate("/productos"); // Redirige a /login después de cerrar el modal
+  };
+
   return (
     <>
-      <Navbar />
+ 
       <Row justify="center" align="middle" style={{ height: "100vh" }}>
         <Col span={8}>
+
+        <Title level={3} style={{ textAlign: "center" }}>
+              Agregar producto
+            </Title>
           <Form
             name="registro_form"
             className="registro-form"
@@ -249,6 +267,54 @@ const AgregarProductoForm = () => {
             )}
 
             <Form.Item>
+
+
+
+            <Form.Item
+              name="tiene_descuento"
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor selecciona si tiene descuento",
+                },
+              ]}
+            >
+              <Select
+
+              
+                placeholder="Tiene descuento"
+                onChange={(value) => setFormData({ ...formData, tiene_descuento: value })}
+              >
+                <Select.Option value="1">Sí</Select.Option>
+                <Select.Option value="0">No</Select.Option>
+              </Select>
+            </Form.Item>
+
+
+
+
+            <Form.Item
+              name="precio_descuento"
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor ingresa el precio de descuento",
+                },
+              ]}
+            >
+              <Input
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                placeholder="Precio de descuento"
+                name="precio_descuento"
+                value={formData.precio_descuento}
+                onChange={handleInputChange}
+              />
+            </Form.Item>
+
+
+
+
+
               <Button
                 type="primary"
                 htmlType="submit"
@@ -261,7 +327,15 @@ const AgregarProductoForm = () => {
           </Form>
         </Col>
       </Row>
-      <Footer />
+
+      <Modal
+        title="Producto agregado"
+        visible={isSuccessModalVisible}
+        onOk={handleModalOk}
+        okText="Ir al listado"
+      >
+        <p>El producto se ha agregado correctamente.</p>
+      </Modal>
     </>
   );
 };

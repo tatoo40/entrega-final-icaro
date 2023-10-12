@@ -1,35 +1,26 @@
-import React, { useState,useEffect } from "react";
-import { Form, Input, Button, Checkbox, Row, Col } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import useUserLogin from "../store/useUserLogin";
+import React, { useState,useEffect , useContext} from "react";
+import { Form, Input, Button, Row, Col,Modal , Typography} from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import { AuthContext } from "../components/AuthContext";
+import { CarritoContext } from "../components/CarritoContext";
 
 const PerfilForm = () => {
 
+    const { Title } = Typography; 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const { user, setUser } = useUserLogin();
-    const [usuario,setUsuario] = useState();
+
+    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); 
     const navigate = useNavigate();
-    //const { user } = useUserLogin();
-  
+    const [successMsg,setSuccessMsg] = useState();
+    const { isLogged, user, handleLogout,updateUser } = useContext(AuthContext); // Importa handleLogout desde AuthContext
+    const { addItemToCart,getCartItems } = useContext(CarritoContext); 
 
   
     // Carga los datos del usuario en el formulario cuando se monta el componente
     useEffect(() => {
-        console.log(user)
-      //setUsuario(...user);
-
-      //console.log(usuario.nombre)
-
-      if (user) {
-        console.log(user.nombre)
-        // Si el usuario está autenticado, establece sus datos en el estado del formulario
-   
-
-      }
+  
     }, [user]);
 
     const onFinish = async (values) => {
@@ -51,11 +42,44 @@ const PerfilForm = () => {
           }
     
           const data = await response.json();
-          setUser(data);
-          navigate("/perfil");
+
+
+          console.log(data)
+          //console.log(user)
+          
+          //er(data[0]);
+
+          //console.log(user)
+
+          const newUserData = {
+            ...data[0]
+          };
+      
+          try {
+            const updatedUserData = await updateUser(newUserData);
+
+            setSuccessMsg('Datos modificados correctamente');
+            setIsSuccessModalVisible(true); 
+          
         } catch (error) {
+        
+            console.log({ error });
+            setError(true);
+            setSuccessMsg('"Error al actualizar los datos del usuario');
+     
+          }
+
+
+          
+
+
+
+        } catch (error) {
+
+  
           console.log({ error });
           setError(true);
+
         }
     
         setLoading(false);
@@ -64,14 +88,22 @@ const PerfilForm = () => {
       const handleInputChange = (e) => {
 
       };
+      const handleModalOk = () => {
+        setIsSuccessModalVisible(false); // Ocultar el modal de éxito
+        navigate("/"); // Redirige a /login después de cerrar el modal
+      };
 
   return (
 
    <>
-    <Navbar
 
-     /><Row justify="center" align="middle" style={{ height: "100vh" }}>
+
+     <Row justify="center" align="middle" style={{ height: "100vh" }}>
           <Col span={8}>
+
+          <Title level={3} style={{ textAlign: "center" }}>
+              Perfil de usuario
+            </Title>
             { user && 
               <Form
                   name="normal_login"
@@ -180,7 +212,18 @@ const PerfilForm = () => {
               </Form>
 }
           </Col>
-      </Row><Footer /></>
+      </Row>
+      
+      <Modal
+        title="Usuario modificado correctamente"
+        visible={isSuccessModalVisible}
+        onOk={handleModalOk}
+        okText="Continuar al listado de productos"
+      >
+        <p>Sus datos se han guardad correctamente</p>
+
+      </Modal> 
+      </>
   );
 };
 

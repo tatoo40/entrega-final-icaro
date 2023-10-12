@@ -23,7 +23,7 @@ app.use(cors());
 //app.set("view engine", "ejs"); //motor de plantillas ejs
 //app.use(express.static("public")); //carpeta publica para archivos estaticos (css, js, img, etc)
 app.use(express.urlencoded({ extended: true })); //para poder leer los datos de un formulario
-//app.use(express.json());
+app.use(express.json());
 
 
 
@@ -48,12 +48,19 @@ app.use("/api/", require("./routes/indexRoute")); //contiene la vista index, log
 app.use("/api/admin",require("./routes/adminRoute")); //contiene la vista perfil
 // // rutas de api para usuarios, para la lógica CRUD en usuarios. (GET, POST, PUT, DELETE)
 
-
+app.use("/api/notas",require("./routes/notasRoute"))
 app.use("/api/productos",require("./routes/productosRoute"))
 app.use("/api/usuarios",require("./routes/usuariosRoute"))
 app.use("/api/categorias",require("./routes/categoriasRoute"))
 app.use("/api/ordenes",require("./routes/ordenesRoute"))
 app.use("/api/productosxorden",require("./routes/productosXOrdenRoute"))
+
+
+//app.use("/api/carritopersistente",require("./routes/carritopersistenteRoute"))
+app.use("/api/ofertas",require("./routes/ofertasRoute"))
+app.use("/api/favoritos",require("./routes/favoritosRoute"))
+app.use("/api/comentarios",require("./routes/comentariosRoute"))
+
 
 app.listen(4000, () => {
   console.log("Servidor iniciado en el puerto 4000");

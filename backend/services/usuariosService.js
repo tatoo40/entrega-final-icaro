@@ -3,8 +3,8 @@ const Usuario       = require('../models').usuario;
 const bcrypt = require("bcrypt");
 
 
-function saveUsuarios(usuarios) {
-  const result = crearUsuario(usuarios.nombre,usuarios.email,usuarios.password)
+function saveUsuarios(usuario) {
+  const result = crearUsuario(usuario)
   return result;
 }
 
@@ -14,7 +14,7 @@ async function readUsuarios() {
   //return usuariosParsed;
 
   const usuarios = await obtenerUsuarios();
-  console.log(usuarios)
+  //console.log(usuarios)
   //const usuariosParsed = JSON.parse(usuarios);
   return usuarios;
 
@@ -39,7 +39,7 @@ async function actualizarUsuario (id, body) {
   
   
   const usuarios =  await actaulizarUsuarioByIdBD(id,body);
-  console.log(usuarios)
+  //console.log(usuarios)
   //const usuariosParsed = JSON.parse(usuarios);
   return usuarios;
 
@@ -49,7 +49,7 @@ async function actualizarUsuario (id, body) {
 
 async function  obtengoUsuarios() {
   const usuarios =  await obtenerUsuariosBD();
-  console.log(usuarios)
+  //console.log(usuarios)
   //const usuariosParsed = JSON.parse(usuarios);
   return usuarios;
 };
@@ -64,12 +64,16 @@ async function obtenerUsuariosBD() {
   }
 }
 
-async function  obtenerUsuarioId (id) {
-  const usuario =  await obtenerUsuarioByIdBD(id);
-  console.log(usuario)
-  //const usuariosParsed = JSON.parse(usuarios);
-  return usuario;
-};
+async function obtenerUsuarioId(id) {
+  try {
+    const usuario = await obtenerUsuarioByIdBD(id);
+    //console.log('EL USUARIO ES ' + usuario);
+    return usuario;
+  } catch (error) {
+    throw error; // Asegúrate de manejar los errores adecuadamente o lanzarlos para que se puedan manejar en otro lugar
+  }
+}
+
 
 async function obtenerUsuarioByIdBD(id) {
   try {
@@ -96,7 +100,7 @@ async function actaulizarUsuarioByIdBD(id,body) {
   await  bcrypt.hash(body.password, saltRounds, (error, hashedPassword) => {
 
     if (error) {
-      console.error(error);
+     // console.error(error);
       res.status(500).send("Error al hashear la contraseña");
       return;
     }
@@ -129,12 +133,15 @@ async function actaulizarUsuarioByIdBD(id,body) {
 }
 
 
-async function crearUsuario(nombre, email, password) {
+async function crearUsuario(usuario) {
   try {
     const nuevoUsuario = await Usuario.create({
-      nombre: nombre,
-      email: email,
-      password: password,
+      nombre: usuario.nombre,
+      email: usuario.email,
+      password: usuario.password,
+      domicilio:usuario.domicilio,
+      telefono:usuario.telefono,
+      role:usuario.role
       // Otras propiedades del usuario si las hay
     });
 
@@ -160,15 +167,20 @@ async function obtenerUsuarios() {
 
 
 async function obtenerUsuarioModelo(email) {
+
+  //console.log('EL SUAURIOARO ES '+usuario)
+  //console.log('EL SUAURIOARO ES '+email)
   try {
-    const usuario = await Usuario.findOne({
+    const usuario = await Usuario.findAll({
       where: {
         email: email
       }
     });
 
+   // console.log('EL SUAURIOARO ES '+usuario)
     // Si se encuentra un usuario con el correo electrónico proporcionado, se almacena en 'usuario'
     return usuario; // Puede ser 'null' si no se encuentra ningún usuario con ese email
+
   } catch (error) {
 
     throw error;
@@ -180,6 +192,8 @@ async function obtenerUsuarioModelo(email) {
 
 async function loginModelo(email,password) {
   try {
+
+   // console.log(email)
     const usuario = await Usuario.findOne({
       where: {
         email: email

@@ -7,17 +7,15 @@ const renderIndex = (req, res) => {
   //console.log('Hola hola hola como estas? yo muy bien y tu tambien')
   //res.send('dsadasd')
 };
-const renderLogin = (req, res) => {
-  res.render("login", { errors: [] });
-};
-const renderRegistro = (req, res) => {
-  res.render("register", { errors: [] });
-};
+
+
 
 const registrarNuevo = (req, res) => {
 
 
-  const { nombre, email, password } = req.body;
+  const { nombre, email, password,domicilio,telefono } = req.body;
+
+
 
 
   obtenerUsuario(email)
@@ -41,15 +39,20 @@ const registrarNuevo = (req, res) => {
             const nuevoUsuario = {
               nombre,
               email,
-              password: hashedPassword, // Guardar la contraseña hasheada en lugar de la original
+              password: hashedPassword, 
+              role:'user',
+              domicilio,
+              telefono// Guardar la contraseña hasheada en lugar de la original
             };
 
 
             saveUsuarios(nuevoUsuario);
-            //console.log(nuevoUsuario)
-            req.session.usuario = nuevoUsuario;
 
-            res.redirect("/admin/perfil");
+            return res.status(200).json(nuevoUsuario);
+            //console.log(nuevoUsuario)
+            //req.session.usuario = nuevoUsuario;
+
+            //res.redirect("/admin/perfil");
 
           });
     }
@@ -82,7 +85,7 @@ const login = (req, res) => {
   .then(usuario => {
 
 
-        console.log(usuario)
+        //console.log(usuario)
 
         // si lo encuento uso el bcript compare
         if (usuario!==null) {
@@ -98,7 +101,7 @@ const login = (req, res) => {
             // result solo va a ser TRUE o FALSE
             if (result) {
               console.log("Contraseña correcta");
-              req.session.usuario = usuario.dataValues;
+              //req.session.usuario = usuario.dataValues;
               // Enviar el objeto de usuario como respuesta
               return res.status(200).json(usuario.dataValues);
               
@@ -128,8 +131,6 @@ const login = (req, res) => {
 
 module.exports = {
   renderIndex,
-  renderLogin,
-  renderRegistro,
   registrarNuevo,
   login
 

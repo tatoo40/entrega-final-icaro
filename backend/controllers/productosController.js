@@ -17,6 +17,15 @@ const obtengoProductoId = (req, res) => {
   .catch(error => res.status(400).send(error))
 };
 
+
+const obtengoNotasProductoId = (req, res) => {
+  const { id } = req.params;
+  const producto = productosService.obtengoNotasProductoId(id)
+  .then(producto => res.status(200).send(producto))
+  .catch(error => res.status(400).send(error))
+};
+
+
 const agregarProducto = (req, res) => {
   const { body } = req;
   const producto = productosService.agregarProducto(body)
@@ -28,6 +37,8 @@ const actualizarProducto = (req, res) => {
   const { id } = req.params;
   const { body } = req;
 
+  console.log(id);
+  console.log(body);
   const producto = productosService.actualizarProducto(id, body)  
   .then(productos = productosService.obtenerProductos()
   .then(producto => res.status(200).send(producto))
@@ -48,4 +59,5 @@ module.exports = {
   eliminarProducto,
   obtengoProductoId,
   actualizarProducto,
+  obtengoNotasProductoId
 };

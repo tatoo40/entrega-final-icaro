@@ -40,15 +40,22 @@ async function eliminarProductoXOrden (id)  {
 
 async function agregarProductosXOrden(producto){
   const productosXOrden =  await agregarProductoXOrdenBD(producto);
-  console.log(productosXOrden)
+  //console.log(productosXOrden)
   //const usuariosParsed = JSON.parse(usuarios);
   return productosXOrden;
 };
 
 
 async function agregarProductoXOrdenBD(producto) {
-  try {
-    const productosXOrden = await ProductoXOrden.create({ nombre: producto.nombre, precio: producto.precio,descripcion: producto.descripcion,categoria_id: producto.categoria_id });
+
+    try {
+      const productosXOrden = await ProductoXOrden.create({ 
+        idOrden: producto.idOrden, 
+        cantidad: producto.cantidad,
+        precio: producto.precio,
+        idProducto: producto.idProducto, 
+        comentarios: '', 
+      });
     return productosXOrden;
   } catch (error) {
     throw error;

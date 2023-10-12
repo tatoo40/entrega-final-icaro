@@ -11,6 +11,8 @@ const ProductGrid = ({ products }) => {
         </Col>
       ))}
     </Row>
+
+    
   );
 };
 

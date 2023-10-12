@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { Form, Input, Button, Row, Col, Select, Upload, message } from "antd";
+import { Form, Input, Button, Row, Col, Select, Upload, message, Typography , Modal} from "antd";
 import {
   UserOutlined,
   MailOutlined,
@@ -7,17 +7,20 @@ import {
   UploadOutlined,
 } from "@ant-design/icons";
 import { useNavigate,useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+
+import useUserLogin from "../store/useUserLogin";
 ///import usuario from "../../../backend/models/usuario";
 
 const ActualizarProductoForm = () => {
+  const { Title } = Typography;
   const [loading, setLoading] = useState(false);
+  const { user, setUser } = useUserLogin();
   const [error, setError] = useState(false);
   const [categories, setCategories] = useState([]); // Estado para almacenar las categorías
   const navigate = useNavigate();
-  const { id } = useParams(); // Obtiene el ID del producto de la URL
 
+  const { id } = useParams(); // Obtiene el ID del producto de la URL
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); 
   const [producto, setProducto] = useState();
 
   // Define el estado inicial del formulario
@@ -27,7 +30,9 @@ const ActualizarProductoForm = () => {
     precio: 0,
     stock_actual: 0,
     categoria_id: 0,
-    foto:'sinimagen.png'
+    foto:'sinimagen.png',
+    precio_descuento:0,
+    tiene_descuento:0
   });
 
 
@@ -40,8 +45,8 @@ const ActualizarProductoForm = () => {
       // Crear un objeto FormData para enviar la foto al servidor
       //const formData = new FormData();
 
-      console.log(id)
-      console.log(values)
+      //console.log(id)
+      //console.log(values)
     
         const response = await fetch(`http://localhost:4000/api/productos/${id}`, {
           method: "PUT",
@@ -56,8 +61,11 @@ const ActualizarProductoForm = () => {
         return setError(true);
       }
 
+
+      setIsSuccessModalVisible(true); // Ocultar el modal de éxito
+
       const data = await response.json();
-      navigate("/productos"); // Redirige a la página de inicio de sesión después del registro exitoso
+      //navigate("/productos"); // Redirige a la página de inicio de sesión después del registro exitoso
     } catch (error) {
       console.log({ error });
       setError(true);
@@ -78,12 +86,12 @@ const ActualizarProductoForm = () => {
 
       setProducto(...data)
       // Llena el estado del formulario con los detalles del producto
-      console.log(data[0]);
+      //console.log(data[0]);
       //setFormData
       setFormData({ ...data[0] })
 
 
-      console.log(formData)
+      //console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -140,13 +148,25 @@ const ActualizarProductoForm = () => {
       [e.target.name]: e.target.value,
     });
   };
-
+  const handleModalOk = () => {
+    setIsSuccessModalVisible(false); // Ocultar el modal de éxito
+    navigate("/productos"); // Redirige a /login después de cerrar el modal
+  };
   return (
     <>
-    
-      <Navbar />
+         
+
+
+
       <Row justify="center" align="middle" style={{ height: "100vh" }}>
+
+      
         <Col span={8}>
+        <Title level={3} style={{ textAlign: "center" }}>
+              Actualizar producto
+            </Title>
+
+
         { producto &&
           <Form
             name="registro_form"
@@ -155,7 +175,7 @@ const ActualizarProductoForm = () => {
             initialValues={{ nombre: producto.nombre, descripcion:producto.descripcion, 
               precio:producto.precio, 
               stock_actual:producto.stock_actual,
-              categoria_id:producto.categoria_id, foto:producto.foto}} 
+              categoria_id:producto.categoria_id, foto:producto.foto, precio_descuento:producto.precio_descuento, tiene_descuento:producto.tiene_descuento}} 
           >
             <Form.Item
               name="nombre"
@@ -270,6 +290,58 @@ const ActualizarProductoForm = () => {
                 onChange={handleInputChange}
               />
             </Form.Item>
+
+
+            <Form.Item
+              name="tiene_descuento"
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor selecciona si tiene descuento",
+                },
+              ]}
+            >
+              <Select
+
+                value={producto.tiene_descuento} 
+                placeholder="Tiene descuento"
+                onChange={(value) => setFormData({ ...formData, tiene_descuento: value })}
+              >
+                           
+
+                <Select.Option key={1}  value="1">Sí</Select.Option>
+                <Select.Option key={0}  value="0">No</Select.Option>
+              </Select>
+            </Form.Item>
+
+
+
+
+            <Form.Item
+              name="precio_descuento"
+              rules={[
+                {
+                  required: true,
+                  message: "Por favor ingresa el precio de descuento",
+                },
+              ]}
+            >
+              <Input
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                placeholder="Precio de descuento"
+                name="precio_descuento"
+                value={producto.precio_descuento}
+                onChange={handleInputChange}
+              />
+            </Form.Item>
+
+
+
+
+
+
+
+
             {error && (
               <Form.Item>
                 <p style={{ color: "red" }}>
@@ -294,8 +366,20 @@ const ActualizarProductoForm = () => {
           </Form>
 }
         </Col>
+
+  
       </Row>
-      <Footer />
+
+      <Modal
+        title="Producto actualizado"
+        visible={isSuccessModalVisible}
+        onOk={handleModalOk}
+        okText="Ir al listado"
+      >
+        <p>El producto se ha modificado correctamente.</p>
+      </Modal>
+
+
     </>
   );
 };

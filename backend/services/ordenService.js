@@ -49,7 +49,14 @@ async function agregarOrden(orden){
 
 async function agregarOrdenBD(orden) {
   try {
-    const ordenes = await Orden.create({ nombre: producto.nombre, precio: producto.precio,descripcion: producto.descripcion,categoria_id: producto.categoria_id });
+    const ordenes = await Orden.create({ 
+      fecha: orden.fecha, 
+      idUsuario: orden.idUsuario,
+      cantidad_productos: orden.cantidad_productos,
+      precio_total: orden.precio_total, 
+      comentarios: orden.comentarios, 
+      metodo_entrega: orden.metodo_entrega
+    });
     return ordenes;
   } catch (error) {
     throw error;

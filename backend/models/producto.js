@@ -23,6 +23,18 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.DECIMAL,
   
       },  
+      precio_descuento: {
+        allowNull: false,
+        defaultValue: 1,
+        type: DataTypes.DECIMAL,
+
+    },  
+    tiene_descuento: {
+        allowNull: false,
+        defaultValue: 1,
+        type: DataTypes.BOOLEAN,
+
+    },  
       stock_actual: {
         allowNull: false,
         defaultValue: 1,

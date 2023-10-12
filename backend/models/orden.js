@@ -28,7 +28,13 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 1,
         type: DataTypes.INTEGER,
 
-    }    
+    }    ,  
+    metodo_entrega: {
+      allowNull: false,
+      defaultValue: 1,
+      type: DataTypes.CHAR,
+
+  }    
     }, {
         timestamps: false,
         freezeTableName: true,

@@ -1,11 +1,16 @@
 import React, { useState,useEffect } from "react";
-import { Card, Button } from "antd";
+import { Card, Button, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const ProductCardAdmin = ({ product, onAddToOrder }) => {
 
   const [isAdded, setIsAdded] = useState(false);
   const [isInLocalStorage, setIsInLocalStorage] = useState(false);
+
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); 
+
+
+
 
   const history = useNavigate();
 
@@ -30,7 +35,7 @@ const ProductCardAdmin = ({ product, onAddToOrder }) => {
       }
 
       // Realiza una nueva solicitud para actualizar la lista de productos
-      window.location.href = "/productos"; 
+      setIsSuccessModalVisible(true); // Ocultar el modal de éxito
 
       // Opcional: Puedes mostrar un mensaje de éxito o redirigir a otra página
       //history.push("/productos"); // Redirige a la página de productos actualizada
@@ -49,20 +54,34 @@ const ProductCardAdmin = ({ product, onAddToOrder }) => {
     setIsInLocalStorage(isProductInCart);
   }, [product.id]);
   
+  const handleModalOk = () => {
+    setIsSuccessModalVisible(false); // Ocultar el modal de éxito
+    history("/productos"); // Redirige a /login después de cerrar el modal
+  };
   return (
+
+    <>
     <Card
       hoverable
       style={{ width: 240 }}
       cover={<img alt={product.nombre} src={`/src/assets/${product.foto}`}/>}
     >
       <Card.Meta title={product.nombre} description={product.descripcion} />
-      <p>Price: ${product.precio}</p>
+      {product.tiene_descuento ? (
+        <>
+          <p style={{ textDecoration: "line-through" }}>Precio: ${product.precio}</p>
+          <p>Precio con descuento: ${product.precio_descuento}</p>
+        </>
+      ) : (
+        <p>Precio: ${product.precio}</p>
+      )}
 
- 
+<small>Stock: {product.stock_actual} Un.</small> 
 
             <Button type="primary" onClick={() => handleUpdateClick(product.id)}>
               Actualizar Producto
             </Button>
+            <br></br>
             <Button type="primary" onClick={() => handleDeleteClick(product.id)}>
               Borrar Producto
             </Button>
@@ -71,6 +90,18 @@ const ProductCardAdmin = ({ product, onAddToOrder }) => {
 
 
     </Card>
+    
+
+    <Modal
+    title="Producto actualizado"
+    visible={isSuccessModalVisible}
+    onOk={handleModalOk}
+    okText="Ir al listado"
+  >
+    <p>El producto se ha borrado correctamente.</p>
+  </Modal>    </>
+
+
   );
 };
 

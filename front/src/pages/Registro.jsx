@@ -1,20 +1,24 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Row, Col } from "antd";
+import { Form, Input, Button, Row, Col, Typography,Modal } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+
 
 const RegistroForm = () => {
+
+  const { Title } = Typography; 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState();
+  const [successMsg, setSuccessMsg] = useState(); 
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); 
   const navigate = useNavigate();
 
   // Define el estado inicial del formulario
   const [formData, setFormData] = useState({
     nombre: "",
     email: "",
-    direccion: "",
+    domicilio: "",
     telefono: "",
     password: "",
   });
@@ -24,7 +28,7 @@ const RegistroForm = () => {
     setError(false);
 
     try {
-      const response = await fetch("http://localhost:4000/api/usuario", {
+      const response = await fetch("http://localhost:4000/api/registro", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,16 +36,36 @@ const RegistroForm = () => {
         body: JSON.stringify(values),
       });
 
+      console.log(response)
+
       if (!response.ok) {
+        console.log(response)
         setLoading(false);
+       
+        if (response.status===400){ 
+
+          setErrorMsg('Ya existe un usuario con esa cuenta de correo')
+        
+        }else{
+
+          setErrorMsg('Hubo un error en el registro de los datos ')
+
+        }
         return setError(true);
+        
       }
 
       const data = await response.json();
-      navigate("/login"); // Redirige a la página de inicio de sesión después del registro exitoso
+      setSuccessMsg('Usted se ha registrado correctamente');
+
+      setIsSuccessModalVisible(true); 
+
+
+
     } catch (error) {
       console.log({ error });
       setError(true);
+
     }
 
     setLoading(false);
@@ -55,11 +79,29 @@ const RegistroForm = () => {
     });
   };
 
+
+  const handleModalOk = () => {
+    setIsSuccessModalVisible(false); // Ocultar el modal de éxito
+    navigate("/login"); // Redirige a /login después de cerrar el modal
+  };
+
   return (
     <>
-      <Navbar />
+   
+     
+
+
+
       <Row justify="center" align="middle" style={{ height: "100vh" }}>
         <Col span={8}>
+        
+        <Title level={3} style={{ textAlign: "center" }}>
+              Registro de usuarios
+            </Title>
+
+
+
+
           <Form
             name="registro_form"
             className="registro-form"
@@ -101,19 +143,19 @@ const RegistroForm = () => {
               />
             </Form.Item>
             <Form.Item
-              name="direccion"
+              name="domicilio"
               rules={[
                 {
                   required: true,
-                  message: "Por favor ingresa tu direccion",
+                  message: "Por favor ingresa tu domicilio",
                 },
               ]}
             >
               <Input
                 prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Direccion"
-                name="direccion"
-                value={formData.direccion}
+                placeholder="Domicilio"
+                name="domicilio"
+                value={formData.domicilio}
                 onChange={handleInputChange}
               />
             </Form.Item>
@@ -156,7 +198,7 @@ const RegistroForm = () => {
             {error && (
               <Form.Item>
                 <p style={{ color: "red" }}>
-                  Error al registrar el usuario. Por favor intente de nuevo.
+                  {errorMsg}
                 </p>
               </Form.Item>
             )}
@@ -174,7 +216,15 @@ const RegistroForm = () => {
           </Form>
         </Col>
       </Row>
-      <Footer />
+
+      <Modal
+        title="Registro exitoso"
+        visible={isSuccessModalVisible}
+        onOk={handleModalOk}
+        okText="Continuar a Inicio de Sesión"
+      >
+        <p>Usted se ha registrado correctamente.</p>
+      </Modal>
     </>
   );
 };

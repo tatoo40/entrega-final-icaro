@@ -7,11 +7,7 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             type: DataTypes.INTEGER
         },
-        fecha: {
-            allowNull: false,
-            type: DataTypes.DATE
-        },
-        idUsuario: {
+        idOrden: {
             allowNull: true,
             defaultValue: 1,
             type: DataTypes.INTEGER
@@ -29,18 +25,18 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.DECIMAL,
   
       }, 
-      comentarios: {
-        allowNull: false,
-        defaultValue: 1,
-        type: DataTypes.CHAR,
-
-    },  
       cantidad: {
         allowNull: false,
         defaultValue: 1,
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL,
 
-    }    
+    }, 
+      comentarios: {
+        allowNull: true,
+        defaultValue: 1,
+        type: DataTypes.CHAR,
+
+    }  
     }, {
         timestamps: false,
         freezeTableName: true,
