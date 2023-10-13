@@ -1,11 +1,9 @@
-const fs = require("fs");
-
 const Categoria       = require('../models').categoria;
 
 // Función para leer los datos del archivo productos.json
 async function  obtengoCategorias() {
   const categorias =  await obtenerCategoriasBD();
-  console.log(categorias)
+ 
   //const usuariosParsed = JSON.parse(usuarios);
   return categorias;
 };
@@ -14,7 +12,7 @@ async function actualizarCategoria (id, body) {
   
   
     const categorias =  await actaulizarCategoriaByIdBD(id,body);
-    console.log(categorias)
+
     //const usuariosParsed = JSON.parse(usuarios);
     return categorias;
 
@@ -23,7 +21,7 @@ async function actualizarCategoria (id, body) {
 
 async function  obtenerCategoriaId (id) {
   const categorias =  await obtenerCategoriasByIdBD(id);
-  console.log(categorias)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return categorias;
 };
@@ -34,14 +32,14 @@ async function eliminarCategoria (id)  {
   const categoriaEliminado =  await eliminarCategoriaById(id);
 
   const categorias =  await obtenerCategoriasBD();
-  console.log(categorias)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return categorias;
 };
 
 async function agregarCategoria(categoria){
   const categorias =  await agregarCategoriaBD(categoria);
-  console.log(categorias)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return categorias;
 };

@@ -36,11 +36,13 @@ const ProductCardAdmin = ({ product, onAddToOrder }) => {
 
       // Realiza una nueva solicitud para actualizar la lista de productos
       setIsSuccessModalVisible(true); // Ocultar el modal de éxito
-
+      history("/productos")
       // Opcional: Puedes mostrar un mensaje de éxito o redirigir a otra página
       //history.push("/productos"); // Redirige a la página de productos actualizada
     } catch (error) {
+
       console.error(error);
+    
     }
   };
 
@@ -65,6 +67,7 @@ const ProductCardAdmin = ({ product, onAddToOrder }) => {
       hoverable
       style={{ width: 240 }}
       cover={<img alt={product.nombre} src={`/src/assets/${product.foto}`}/>}
+      key={product.id} 
     >
       <Card.Meta title={product.nombre} description={product.descripcion} />
       {product.tiene_descuento ? (

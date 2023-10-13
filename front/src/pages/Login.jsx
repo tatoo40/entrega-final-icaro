@@ -3,8 +3,6 @@ import { AuthContext } from "../components/AuthContext"
 import { Form, Input, Button, Checkbox, Row, Col, Typography } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate,Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 const LoginForm = () => {
   const { Title } = Typography; 
@@ -13,7 +11,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
 
-  const { login } = useContext(AuthContext); // Obtiene la función de inicio de sesión del contexto
+  const { login } = useContext(AuthContext); 
   
   const [formData, setFormData] = useState({
     email: "",
@@ -29,19 +27,18 @@ const LoginForm = () => {
       const user = await login(values.email, values.password)
  
 
-        // Verifica si el inicio de sesión fue exitoso (por ejemplo, si el usuario existe)
+      
     if (user) {
-      // Redirige al usuario a la página de productos
+    
       navigate("/productos");
     } else {
-      // Maneja el caso en el que el inicio de sesión no fue exitoso
-      // Puedes mostrar un mensaje de error al usuario si es necesario
+    
       setError(true)
       console.error("Inicio de sesión fallido. Usuario no encontrado.");
     }  
-      // Maneja la redirección o cualquier otra acción después del inicio de sesión exitoso
+     
     } catch (error) {
-      // Maneja los errores, por ejemplo, mostrando un mensaje de error al usuario
+     
       console.error("Error de inicio de sesión:", error);
     }
   };

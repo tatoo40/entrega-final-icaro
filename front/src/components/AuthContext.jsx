@@ -1,4 +1,3 @@
-// CarritoContext.js
 import React, { createContext, useState } from 'react';
 const AuthContext = createContext();
 
@@ -12,48 +11,50 @@ const AuthProvider =  ({ children }) => {
 
   const fetchUserFavorites = async (userId) => {
     try {
-      // Realiza una solicitud GET a la API para obtener los favoritos del usuario
+
       const response = await fetch(`http://localhost:4000/api/favoritos/usu/${userId}`);
 
       if (!response.ok) {
-        // Si la respuesta no es exitosa, maneja el error si es necesario
+        
         throw new Error("Error al obtener los favoritos del usuario");
       }
 
       const data = await response.json();
 
-      // Guarda los favoritos en el localStorage
+ 
       localStorage.setItem("favoritos", JSON.stringify(data));
 
       
     } catch (error) {
-      // Maneja los errores, por ejemplo, mostrando un mensaje de error al usuario si es necesario
+      
       console.error("Error al obtener los favoritos del usuario:", error);
-      throw error; // Puedes propagar el error o manejarlo según tus necesidades
+
+      throw error; 
     }
   };
 
 
   const fetchComentarios = async (userId) => {
     try {
-      // Realiza una solicitud GET a la API para obtener los favoritos del usuario
+   
       const response = await fetch(`http://localhost:4000/api/comentarios`);
 
       if (!response.ok) {
-        // Si la respuesta no es exitosa, maneja el error si es necesario
+      
         throw new Error("Error al obtener los comentarios del usuario");
       }
 
       const data = await response.json();
 
-      // Guarda los favoritos en el localStorage
+   
       localStorage.setItem("comentarios", JSON.stringify(data));
 
       
     } catch (error) {
-      // Maneja los errores, por ejemplo, mostrando un mensaje de error al usuario si es necesario
+      
       console.error("Error al obtener los comentarios", error);
-      throw error; // Puedes propagar el error o manejarlo según tus necesidades
+      
+      throw error; 
     }
   };
 

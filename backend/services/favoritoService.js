@@ -1,12 +1,9 @@
-const fs = require("fs");
-
 const Favorito       = require('../models').favorito;
 
 // Función para leer los datos del archivo productos.json
 async function  obtengoFavoritos() {
   const favoritos =  await obtengoFavoritosBD();
-  console.log(favoritos)
-  //const usuariosParsed = JSON.parse(usuarios);
+
   return favoritos;
 };
 
@@ -14,7 +11,7 @@ async function actualizarFavorito (id, body) {
   
   
     const favoritos =  await actaulizarFavoritoByIdBD(id,body);
-    console.log(favoritos)
+
     //const usuariosParsed = JSON.parse(usuarios);
     return favoritos;
 
@@ -23,14 +20,14 @@ async function actualizarFavorito (id, body) {
 
 async function  obtenerFavoritoId (id) {
   const favoritos =  await obtenerFavoritoByIdBD(id);
-  console.log(favoritos)
+  
   //const usuariosParsed = JSON.parse(usuarios);
   return favoritos;
 };
 
 async function  obtengoFavoritoIdUsuario (id) {
   const favoritos =  await obtenerFavoritoByIdUsuarioBD(id);
-  console.log(favoritos)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return favoritos;
 };

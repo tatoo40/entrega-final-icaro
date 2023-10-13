@@ -8,13 +8,10 @@ import {
 } from "@ant-design/icons";
 import { useNavigate,useParams } from "react-router-dom";
 
-import useUserLogin from "../store/useUserLogin";
-///import usuario from "../../../backend/models/usuario";
 
 const ActualizarProductoForm = () => {
   const { Title } = Typography;
   const [loading, setLoading] = useState(false);
-  const { user, setUser } = useUserLogin();
   const [error, setError] = useState(false);
   const [categories, setCategories] = useState([]); // Estado para almacenar las categorías
   const navigate = useNavigate();
@@ -67,7 +64,7 @@ const ActualizarProductoForm = () => {
       const data = await response.json();
       //navigate("/productos"); // Redirige a la página de inicio de sesión después del registro exitoso
     } catch (error) {
-      console.log({ error });
+      //console.log({ error });
       setError(true);
     }
 
@@ -301,17 +298,14 @@ const ActualizarProductoForm = () => {
                 },
               ]}
             >
-              <Select
-
-                value={producto.tiene_descuento} 
-                placeholder="Tiene descuento"
-                onChange={(value) => setFormData({ ...formData, tiene_descuento: value })}
-              >
-                           
-
-                <Select.Option key={1}  value="1">Sí</Select.Option>
-                <Select.Option key={0}  value="0">No</Select.Option>
-              </Select>
+<Select
+  value={producto.tiene_descuento ? "1" : "0"}
+  placeholder="Tiene descuento"
+  onChange={(value) => setFormData({ ...formData, tiene_descuento: value === "1" })}
+>
+  <Select.Option key={1} value="1">Sí</Select.Option>
+  <Select.Option key={0} value="0">No</Select.Option>
+</Select>
             </Form.Item>
 
 

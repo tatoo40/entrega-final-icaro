@@ -32,6 +32,8 @@ const Carrito = () => {
       const productoEnLocalStorage = cartItems.find((producto) => producto.id === productoId);
     
 
+        console.log(nuevaCantidad);
+        console.log(productoEnLocalStorage.stock_actual)
       if (productoEnLocalStorage && nuevaCantidad > productoEnLocalStorage.stock_actual) {
 
           confirm({

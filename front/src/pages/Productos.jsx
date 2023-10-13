@@ -23,12 +23,11 @@ const Productos = () => {
 
   const { isLogged, user, handleLogout } = useContext(AuthContext); 
 
-//console.log(user)
 
   const fetchTodos = async () => {
     const response = await fetch("http://localhost:4000/api/productos");
     const data = await response.json();
-    //console.log(data);
+
     setProducts(data);
     setFilteredProducts(data);
   };
@@ -96,9 +95,9 @@ const Productos = () => {
 
   return (
     <>
-   
+   { user.role==='admin' && 
     <div style={{ textAlign: "left" ,  margin:"25px"  }}>
-      {/* Filtro por nombre */}
+
 
 
       <Title level={3} style={{ textAlign: "center" }}>
@@ -108,7 +107,7 @@ const Productos = () => {
 
 
 
-
+        
       <Row justify="center" align="middle">
         <Col span={8}>
 
@@ -122,7 +121,7 @@ const Productos = () => {
         </Col>
       </Row>
 
-      {/* Filtro por categoría */}
+
       <Row justify="center" align="middle">
         <Col span={8}>
         <h3 style={{ textAlign: "left" ,  margin:"20px 0px 2px 0px"}}>Seleccionar categoría de productos</h3>
@@ -140,7 +139,7 @@ const Productos = () => {
         </Col>
       </Row>
 
-      {/* Filtro por precio mínimo y máximo */}
+
       <Row justify="center" align="middle">
         <Col span={8}>
         <h3 style={{ textAlign: "left" ,  margin:"20px 0px 2px 0px"}}>Filtrar por precio</h3>
@@ -167,7 +166,7 @@ const Productos = () => {
         </Col>
       </Row>
 
-      {/* Filtro para ordenar por precio */}
+ 
       <Row justify="center" align="middle">
         <Col span={8}>
           <h3 style={{ textAlign: "left" ,  margin:"20px 0px 2px 0px"}}>Ordenar por precio</h3>
@@ -181,7 +180,7 @@ const Productos = () => {
           </Select>
         </Col>
       </Row>
-
+    
       <Row justify="center" align="middle">
         <Col span={8}>
           
@@ -196,20 +195,25 @@ const Productos = () => {
   
         </Col>
       </Row>
-
+    
 
 
 
       </div>
+
+      }
       <div style={{ textAlign: "center" }}>
-      {/* Resultados de productos */}
+
       { user.role==='admin' && 
       <Row gutter={[16, 16]}>
         <Col span={24}>
           {filteredProducts ? <ProductGridAdmin products={filteredProducts} /> : null}
         </Col>
       </Row>
-          } : {
+          } 
+          
+          
+          { user.role!=='admin' && 
             <Row justify="center" align="middle" style={{ height: "100vh" }}>
             <Col span={8}>
               <p>Usted no puede ver los productos en esta seccion si no es administrador</p>

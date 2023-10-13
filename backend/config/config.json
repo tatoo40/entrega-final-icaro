@@ -2,21 +2,21 @@
   "development": {
     "username": "root",
     "password": "Gardel2615",
-    "database": "proyectoFinalDb",
+    "database": "proyectofinal",
     "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
     "password": "Gardel2615",
-    "database": "proyectoFinalDb",
+    "database": "proyectofinal",
     "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
     "password": "Gardel2615",
-    "database": "proyectoFinalDb",
+    "database": "proyectofinal",
     "host": "localhost",
     "dialect": "mysql"
   }

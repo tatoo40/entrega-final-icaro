@@ -1,11 +1,9 @@
-const fs = require("fs");
-
 const Comentario       = require('../models').comentario;
 
 // Función para leer los datos del archivo productos.json
 async function  obtengoComentarios() {
   const comentarios =  await obtengoComentariosBD();
-  console.log(comentarios)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return comentarios;
 };
@@ -14,7 +12,7 @@ async function actualizarComentario (id, body) {
   
   
     const comentarios =  await actaulizarComentarioByIdBD(id,body);
-    console.log(comentarios)
+
     //const usuariosParsed = JSON.parse(usuarios);
     return comentarios;
 
@@ -43,14 +41,14 @@ async function eliminarComentario (id)  {
   const comentarioEliminado =  await eliminarComentarioById(id);
 
   const comentarios =  await obtengoComentariosBD();
-  console.log(comentarios)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return comentarios;
 };
 
 async function agregarComentario(comentario){
   const comentarios =  await agregarComentarioBD(comentario);
-  console.log(comentarios)
+ 
   //const usuariosParsed = JSON.parse(usuarios);
   return comentarios;
 };

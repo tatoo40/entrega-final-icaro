@@ -31,6 +31,14 @@ function CarritoProvider({ children }) {
     return updatedCart;
   };
 
+  const removeAllItems = () => {
+    const updatedCart = []; // Una matriz vacía para eliminar todos los elementos
+    setCartItems(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart)); // Actualiza el carrito en el localStorage
+  
+    return updatedCart;
+  };
+
   // Función para obtener la cantidad de elementos en el carrito
   const getCartItemCount = () => {
  
@@ -55,7 +63,7 @@ function CarritoProvider({ children }) {
   // Puedes definir otras funciones según tus necesidades, como vaciar el carrito, calcular el total, etc.
 
   return (
-    <CarritoContext.Provider value={{getCartItems, cartItems, addItemToCart, removeItemFromCart, getCartItemCount }}>
+    <CarritoContext.Provider value={{getCartItems, cartItems, addItemToCart, removeItemFromCart, getCartItemCount,removeAllItems }}>
       {children}
     </CarritoContext.Provider>
   );

@@ -1,13 +1,10 @@
-const fs = require("fs");
-const archivoService = require("../services/manejoArchivoService");
 const comentario = require("../models/comentario");
 const Producto       = require('../models').producto;
 const Comentario       = require('../models').comentario;
 // Función para leer los datos del archivo productos.json
 async function  obtenerProductos() {
   const productos =  await obtenerProductosBD();
-  console.log(productos)
-  //const usuariosParsed = JSON.parse(usuarios);
+
   return productos;
 };
 
@@ -15,7 +12,7 @@ async function actualizarProducto (id, body) {
   
   
     const productos =  await actaulizarProductoByIdBD(id,body);
-    console.log(productos)
+
     //const usuariosParsed = JSON.parse(usuarios);
     return productos;
 
@@ -24,8 +21,8 @@ async function actualizarProducto (id, body) {
 
 async function  obtenerProductoId (id) {
   const productos =  await obtenerProductosByIdBD(id);
-  console.log(productos)
-  //const usuariosParsed = JSON.parse(usuarios);
+
+
   return productos;
 };
 
@@ -33,8 +30,7 @@ async function  obtenerProductoId (id) {
 
 async function  obtengoNotasProductoId (id) {
   const productos =  await obtenerNotasProductoByIdBD(id);
-  //console.log(productos)
-  //const usuariosParsed = JSON.parse(usuarios);
+
   return productos;
 };
 
@@ -47,14 +43,14 @@ async function eliminarProducto (id)  {
   const productoEliminado =  await eliminarProductoById(id);
 
   const productos =  await obtenerProductosBD();
-  console.log(productos)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return productos;
 };
 
 async function agregarProducto(producto){
   const productos =  await agregarProductoBD(producto);
-  console.log(productos)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return productos;
 };

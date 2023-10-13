@@ -1,4 +1,4 @@
-import React, { useState , useContext} from "react";
+import React, { useState , useContext,useEffect} from "react";
 import { Form, Input, Button, Row, Col,Select } from "antd";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../components/AuthContext";
@@ -12,7 +12,7 @@ const CheckoutForm = () => {
 
   
   const { isLogged, user, handleLogout } = useContext(AuthContext); // Importa handleLogout desde AuthContext
-  const { addItemToCart,getCartItems } = useContext(CarritoContext); 
+  const { addItemToCart,getCartItems ,removeAllItems} = useContext(CarritoContext); 
 
   const [formData, setFormData] = useState({
     comentarios: "",
@@ -120,6 +120,8 @@ const CheckoutForm = () => {
 
     setLoading(false);
   };
+
+
 
   return (
     <>

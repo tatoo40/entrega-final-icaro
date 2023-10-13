@@ -20,7 +20,10 @@ const registrarNuevo = (req, res) => {
 
   obtenerUsuario(email)
   .then(usuario => {
-    if (usuario) {
+
+    //console.log(usuario)
+
+    if (usuario && usuario.length > 0) {
       console.log('Usuario encontrado:');
       console.log(`ID: ${usuario.id}`);
       console.log(`Nombre: ${usuario.nombre}`);
@@ -100,13 +103,13 @@ const login = (req, res) => {
 
             // result solo va a ser TRUE o FALSE
             if (result) {
-              console.log("Contraseña correcta");
+              //console.log("Contraseña correcta");
               //req.session.usuario = usuario.dataValues;
               // Enviar el objeto de usuario como respuesta
               return res.status(200).json(usuario.dataValues);
               
             } else {
-              console.log("contraseña incorrecta");
+              //console.log("contraseña incorrecta");
               return res.status(500).send("Contraseña incorrecta");
             }
           });

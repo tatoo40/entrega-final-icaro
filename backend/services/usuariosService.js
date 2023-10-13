@@ -177,9 +177,7 @@ async function obtenerUsuarioModelo(email) {
       }
     });
 
-   // console.log('EL SUAURIOARO ES '+usuario)
-    // Si se encuentra un usuario con el correo electrónico proporcionado, se almacena en 'usuario'
-    return usuario; // Puede ser 'null' si no se encuentra ningún usuario con ese email
+    return usuario; 
 
   } catch (error) {
 

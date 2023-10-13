@@ -36,10 +36,10 @@ const RegistroForm = () => {
         body: JSON.stringify(values),
       });
 
-      console.log(response)
+
 
       if (!response.ok) {
-        console.log(response)
+
         setLoading(false);
        
         if (response.status===400){ 
@@ -63,7 +63,7 @@ const RegistroForm = () => {
 
 
     } catch (error) {
-      console.log({ error });
+    
       setError(true);
 
     }

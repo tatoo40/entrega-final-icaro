@@ -1,7 +1,7 @@
 import React, { useState, useContext,useEffect } from "react";
 import { Row, Col, Result, Button } from "antd";
 import { AuthContext } from "../components/AuthContext";
-//import { CarritoContext } from "../components/CarritoContext";
+import { CarritoContext } from "../components/CarritoContext";
 
 
 
@@ -15,23 +15,15 @@ function formatearFecha(fechaISO) {
 }
 
 const OrderSuccess = () => {
-  const { isLogged, user, handleLogout } = useContext(AuthContext); // Importa handleLogout desde AuthContext
-  //const { addItemToCart,getCartItems } = useContext(CarritoContext); 
+  const { isLogged, user, handleLogout } = useContext(AuthContext);
+  const { addItemToCart, getCartItems, cartItems } = useContext(CarritoContext);
 
-  console.log(JSON.parse(localStorage.getItem("cabezalOrden")));
-  const [orderData, setOrderData] = useState();
+  const [orderData, setOrderData] = useState(null);
 
   useEffect(() => {
-    // Obtener los datos de cabezalOrden del localStorage
     const orderDataFromLocalStorage = JSON.parse(localStorage.getItem("cabezalOrden"));
     setOrderData(orderDataFromLocalStorage);
-
-    // Eliminar los elementos del carrito y el cabezal de la orden después de mostrar los detalles
-
-  }, [orderData]);
-
-
-  console.log(orderData)
+  }, []);
 
   return (
     <>
@@ -44,15 +36,9 @@ const OrderSuccess = () => {
         subTitle={`Resumen de la Orden: #${orderData.id}`}
         extra={[
 
-          <p key="comments">
-            Estimado: <strong>{user.nombre}</strong>
+          <p key="nombre">
+            Estimado, <strong>{user.nombre}</strong>
           </p>,
-          <p key="comments">
-          La orden se enviara al domicilio: <strong>{user.domicilio}</strong>
-        </p>,
-
-
-
           <p key="date">
             Fecha: <strong>{formatearFecha(orderData.fecha)}</strong>
           </p>,
@@ -65,9 +51,25 @@ const OrderSuccess = () => {
           <p key="comments">
             Comentarios: <strong>{orderData.comentarios}</strong>
           </p>,
+                    <p key="metodo_entrega">
+                    Metodo de entrega: <strong>{orderData.metodo_entrega}</strong>
+                  </p>,
         ]}
+        
       />
-
+        {orderData.metodo_entrega === 'domicilio' && (
+    <p key="domicilio">
+      Dirección de Domicilio: <strong>{user.domicilio}</strong>
+    </p>
+  )}
+  <h2>Productos Comprados:</h2>
+  <ul>
+    {cartItems.map((producto) => (
+      <li key={producto.id}>
+        {producto.nombre} - Cantidad: {producto.cantidad} - Precio Unitario: ${producto.precio}
+      </li>
+    ))}
+  </ul>
       <Button type="primary" size="large" href="/">
         Volver a Inicio
       </Button>
@@ -79,6 +81,6 @@ const OrderSuccess = () => {
     </>
   );
 };
-localStorage.removeItem("cart");
-localStorage.removeItem("cabezalOrden");
+//localStorage.removeItem("cart");
+//localStorage.removeItem("cabezalOrden");
 export default OrderSuccess;

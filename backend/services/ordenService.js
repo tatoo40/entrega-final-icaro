@@ -5,7 +5,7 @@ const Orden       = require('../models').orden;
 // Función para leer los datos del archivo productos.json
 async function  obtenerOrdenes() {
   const ordenes =  await obtenerOrdenesBD();
-  console.log(ordenes)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return ordenes;
 };
@@ -14,7 +14,7 @@ async function actualizarOrden (id, body) {
   
   
     const ordenes =  await actaulizarOrdenByIdBD(id,body);
-    console.log(ordenes)
+
     //const usuariosParsed = JSON.parse(usuarios);
     return ordenes;
 
@@ -23,7 +23,7 @@ async function actualizarOrden (id, body) {
 
 async function  obtenerOrdenId (id) {
   const ordenes =  await obtenerOrdenesByIdBD(id);
-  console.log(ordenes)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return ordenes;
 };
@@ -34,14 +34,14 @@ async function eliminarOrden (id)  {
   const ordenEliminado =  await eliminarOrdenById(id);
 
   const ordenes =  await obtenerOrdenesBD();
-  console.log(ordenes)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return ordenes;
 };
 
 async function agregarOrden(orden){
   const ordenes =  await agregarOrdenBD(orden);
-  console.log(ordenes)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return ordenes;
 };

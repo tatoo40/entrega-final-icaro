@@ -1,4 +1,3 @@
-const fs = require("fs");
 const categoriaService = require("../services/categoriaService");
 
 const obtengoCategorias = (req, res) => {

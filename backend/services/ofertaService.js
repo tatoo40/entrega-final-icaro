@@ -1,11 +1,9 @@
-const fs = require("fs");
-
 const Oferta  = require('../models').oferta;
 
 // Función para leer los datos del archivo productos.json
 async function  obtengoOfertas() {
   const ofertas =  await obtengoOfertasBD();
-  console.log(ofertas)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return ofertas;
 };
@@ -14,7 +12,7 @@ async function actualizarOferta (id, body) {
   
   
     const ofertas =  await actaulizarOfertaByIdBD(id,body);
-    console.log(ofertas)
+
     //const usuariosParsed = JSON.parse(usuarios);
     return ofertas;
 
@@ -23,7 +21,7 @@ async function actualizarOferta (id, body) {
 
 async function  obtenerOfertaId (id) {
   const ofertas =  await obtenerOfertaByIdBD(id);
-  console.log(ofertas)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return ofertas;
 };
@@ -34,14 +32,14 @@ async function eliminarOferta (id)  {
   const ofertaEliminado =  await eliminarOfertaById(id);
 
   const ofertas =  await obtengoOfertasBD();
-  console.log(ofertas)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return ofertas;
 };
 
 async function agregarOferta(oferta){
   const ofertas =  await agregarOfertaBD(oferta);
-  console.log(ofertas)
+
   //const usuariosParsed = JSON.parse(usuarios);
   return ofertas;
 };

@@ -26,7 +26,8 @@ const ProductCard = ({ product }) => {
       nombre:product.nombre,
       precio: product.precio,
       cantidad: 1,
-      foto:product.foto
+      foto:product.foto,
+      stock_actual:product.stock_actual
     });
 
    setIsInLocalStorage(true);

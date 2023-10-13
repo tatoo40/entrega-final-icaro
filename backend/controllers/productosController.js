@@ -1,4 +1,3 @@
-const fs = require("fs");
 const productosService = require("../services/productosService");
 
 const obtengoProductos = (req, res) => {
@@ -37,8 +36,7 @@ const actualizarProducto = (req, res) => {
   const { id } = req.params;
   const { body } = req;
 
-  console.log(id);
-  console.log(body);
+
   const producto = productosService.actualizarProducto(id, body)  
   .then(productos = productosService.obtenerProductos()
   .then(producto => res.status(200).send(producto))

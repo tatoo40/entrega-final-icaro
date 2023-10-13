@@ -38,7 +38,7 @@ const Navbar = () => {
               setSelectedKey("6");
               break;  
       default:
-        setSelectedKey("1");
+        setSelectedKey("99");
         break;
 
     }
@@ -92,12 +92,17 @@ const Navbar = () => {
           <Link to="/login">Iniciar Sesión</Link>
         </Menu.Item>
       )}
+      
+      { user?.role !=='admin' &&
       <Menu.Item key="4" icon={<ShoppingCartOutlined />}>
         <Link to="/carrito">Carrito ({getCartItemCount()|| 0})</Link>
       </Menu.Item>
-      {(user && user.role === 'admin') && (
+}
+
+
+      {(user && user?.role === 'admin') && (
           <Menu.Item key="6" icon={<ShoppingCartOutlined />}>
-            <a href="/productos">Productos</a>
+                  <Link to="/productos">Productos</Link>
           </Menu.Item>
         )}    
       {isLogged && (
